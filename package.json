@@ -1,0 +1,20 @@
+{
+  "name": "ex-db",
+  "version": "1.0.0",
+  "description": "project hector express md handlerbars ",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.1.0",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.10.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "911harm",
+  "license": "MIT"
+}
