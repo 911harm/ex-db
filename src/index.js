@@ -3,6 +3,12 @@ const path= require('path');
 const exphbs= require('express-handlebars');
 const methodOverride=require('method-override');
 const expressSession =require('express-session');
+const flash=require('connect-flash');
+
+
+//Solucionando el detalle de handlerbar
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+const Handlebars = require('handlebars')
 
 //inicializaciones
 const app=express();
@@ -13,6 +19,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('views',path.join(__dirname,"views"));
 
 app.engine('.hbs',exphbs({
+    handlebars: allowInsecurePrototypeAccess(Handlebars),//Vital para la solucion 
     defaultLayout:'main',
     layoutsDir: path.join(app.get('views'),'layouts'),
     partialsDir: path.join(app.get('views'),'partials'),
@@ -28,6 +35,7 @@ app.use(expressSession({
     resave:true,
     saveUninitialized:true
 }))
+app.use(flash());
 //Variasbles glovales
 
 //routes
