@@ -1,18 +1,24 @@
 const { text } = require('express');
 const express= require('express');
+const passport = require('passport');
 const User=require('../models/User');
 const router= express.Router();
-
 
 
 router.get('/signin',(req,res)=>{
 res.render('user/signin')
 })
 
+router.post('/signin',passport.authenticate('local',{
+    successRedirect: '/notes',
+    failureRedirect: '/signin',
+    failureFlash: true
+}))
 
 router.get('/signup',(req,res)=>{
 res.render('user/signup')
 })
+
 router.post('/signup',async (req,res)=>{
    const {name,email,password,confirm_password}=req.body;
 
