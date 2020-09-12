@@ -7,6 +7,7 @@ const flash=require('connect-flash');
 const passport=require('passport');
 
 
+
 //Solucionando el detalle de handlerbar
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const Handlebars = require('handlebars')
@@ -37,16 +38,18 @@ app.use(session({
     resave:true,
     saveUninitialized:true
 }))
+
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash());
 //Variasbles glovales
 app.use((req,res,next)=>{
     res.locals.success_msg=req.flash('success_msg');
-    res.locals.error_msg=req.flash('error_msg');
     res.locals.error=req.flash('error');
+    res.locals.user=req.user|| null;
     next();
 })
-app.use(passport.initialize())
-app.use(passport.session())
+
 //routes
 app.use(require('./routes/index'));
 app.use(require('./routes/notes'));

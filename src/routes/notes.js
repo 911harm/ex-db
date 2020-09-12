@@ -1,15 +1,14 @@
 const express= require('express');
 const router= express.Router();
-const Note=require('../models/Note')
-let Notes=[ {title:'Hector',content:'Ramirez'},
-            {title:'Hector',content:'Ramirez'},
-            {title:'Hector',content:'Ramirez'}]
+const Note=require('../models/Note');
+const {isAuth}=require('../helper/auth');
+const User = require('../models/User');
 
-router.get('/notes/new',(req,res)=>{
+router.get('/notes/new',isAuth,(req,res)=>{
 res.render('notes/new')
 })
 
-router.post('/notes/new-note',async (req,res)=>{
+router.post('/notes/new-note',isAuth,async (req,res)=>{
 const {title,content}=req.body;
 console.log(title,content);
 let errors=[];
@@ -29,7 +28,7 @@ if(errors.length>0){
 }
 else{
     const newNote= new Note({title,content});
-    console.log(newNote);
+    newNote.user=req.user.id
     await newNote.save();
     req.flash('success_msg','Nota Guardada')
     res.redirect('/notes/');
@@ -37,24 +36,23 @@ else{
 }
 })//fin metodo de recibir
 
-router.get('/notes/',async (req,res)=>{
-    const notes= await Note.find().sort({date: 'desc'});
-    // console.log(notes)
+router.get('/notes/',isAuth,async (req,res)=>{
+    const notes= await Note.find({user:req.user.id}).sort({date: 'desc'});
     res.render('notes/all',{notes})
 })
-router.get('/notes/edit/:id',async(req,res)=>{
+router.get('/notes/edit/:id',isAuth,async(req,res)=>{
     const note= await Note.findById(req.params.id)
     
     res.render('notes/edit',{note})
 })
-router.put('/notes/edit/:id',async(req,res)=>{
+router.put('/notes/edit/:id',isAuth,async(req,res)=>{
     const {title,content}=req.body
     await Note.findByIdAndUpdate(req.params.id,{title,content})
     req.flash('success_msg','Nota Editada Correctamente')
     res.redirect('/notes/')
 })
   
-router.delete('/notes/delete/:id',async(req,res)=>{
+router.delete('/notes/delete/:id',isAuth,async(req,res)=>{
    await Note.findByIdAndDelete(req.params.id);
    req.flash('success_msg','Nota Eliminada')
     res.redirect('/notes/');

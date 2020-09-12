@@ -52,6 +52,10 @@ router.post('/signup',async (req,res)=>{
         res.redirect('/signin')
    }
 })
+router.get('/logout',(req,res)=>{
+    req.logout();
+    res.redirect('/')
+})
 
 
 
