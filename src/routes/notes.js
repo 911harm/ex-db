@@ -31,6 +31,7 @@ else{
     const newNote= new Note({title,content});
     console.log(newNote);
     await newNote.save();
+    req.flash('success_msg','Nota Guardada')
     res.redirect('/notes/');
     
 }
@@ -43,16 +44,19 @@ router.get('/notes/',async (req,res)=>{
 })
 router.get('/notes/edit/:id',async(req,res)=>{
     const note= await Note.findById(req.params.id)
+    
     res.render('notes/edit',{note})
 })
 router.put('/notes/edit/:id',async(req,res)=>{
     const {title,content}=req.body
     await Note.findByIdAndUpdate(req.params.id,{title,content})
+    req.flash('success_msg','Nota Editada Correctamente')
     res.redirect('/notes/')
 })
   
 router.delete('/notes/delete/:id',async(req,res)=>{
    await Note.findByIdAndDelete(req.params.id);
+   req.flash('success_msg','Nota Eliminada')
     res.redirect('/notes/');
 })
 

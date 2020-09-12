@@ -37,7 +37,11 @@ app.use(expressSession({
 }))
 app.use(flash());
 //Variasbles glovales
-
+app.use((req,res,next)=>{
+    res.locals.success_msg=req.flash('success_msg');
+    res.locals.error_msg=req.flash('error_msg');
+    next();
+})
 //routes
 app.use(require('./routes/index'));
 app.use(require('./routes/notes'));
