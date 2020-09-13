@@ -6,7 +6,7 @@ const session =require('express-session');
 const flash=require('connect-flash');
 const passport=require('passport');
 
-
+require('dotenv').config({path:'variables.env'})
 
 //Solucionando el detalle de handlerbar
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
@@ -58,7 +58,10 @@ app.use(require('./routes/user'));
 //Archivos Estaticos
 app.use(express.static(path.join(__dirname,'public')));
 //Servidor escuchando
-app.listen(3000,()=>{
-    console.log('Servidor en linea en: localhost:',app.get('port'));
+const host=process.env.HOST || '0.0.0.0';
+const port=process.env.PORT || '3000';
+
+app.listen(port,host,()=>{
+    console.log('Servidor en linea',host+':'+port)
     
 });

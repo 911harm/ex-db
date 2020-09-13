@@ -10,7 +10,7 @@ res.render('notes/new')
 
 router.post('/notes/new-note',isAuth,async (req,res)=>{
 const {title,content}=req.body;
-console.log(title,content);
+// console.log(title,content);
 let errors=[];
 if(!title){
     errors.push({text:"Por favor ingrese un Titulo"})
@@ -19,7 +19,7 @@ if(!content){
     errors.push({text:"Por favor ingrese la nota"})
 }
 if(errors.length>0){
-    console.log(errors);
+    // console.log(errors);
     res.render('notes/new',{
         title,
         content,

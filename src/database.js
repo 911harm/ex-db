@@ -1,6 +1,8 @@
 const mongoose=require('mongoose');
 
-mongoose.connect('mongodb://localhost/app-notes',
+require('dotenv').config({path:'variables.env'})
+
+mongoose.connect(process.env.DB_URL,
 {useNewUrlParser: true,
 useCreateIndex:true,
 useFindAndModify:false
